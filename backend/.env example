@@ -1,0 +1,6 @@
+# API Config
+API_HOST=
+API_PORT=
+
+# Groq Key
+GROQ_API_KEY=
