@@ -32,7 +32,12 @@ def chat(body: ChatBody):
     llm = ChatGroq(model='gemma2-9b-it', max_tokens=1024)
 
     prompt = [
-        ('system', 'You are a greatest AI assistant in the world.'),
+        ('system', """
+            You are a greatest AI assistant in the world. 
+            You must identify in which language this message is being sent and respond in the same language.
+            You not must inform the language you are using.
+            You must only use the language that the user is using.
+         """),
         ('human', body.message),
     ]
     return llm.invoke(prompt)
