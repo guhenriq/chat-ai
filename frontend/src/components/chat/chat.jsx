@@ -3,57 +3,51 @@ import IconButton from '@mui/material/IconButton';
 import SendIcon from '@mui/icons-material/Send';
 import Avatar from '@mui/material/Avatar';
 import { useState } from 'react';
-import axios from 'axios';
-import { Paper } from '@mui/material';
+import { sendMessageToAI } from '../../services/api';
 
 export function Chat() {
     const [message, setMessage] = useState('');
-    const [aiMessage, setAiMessage] = useState('');
+    const [messageHistory, setMessageHistory] = useState([]);
 
-    function setMessageValue(e) {
-        setMessage(e.target.value);
-
-        console.log(message)
-    }
-
-    function sendMessage(e) {
+    async function sendMessage(e) {
         e.preventDefault();
-        
-        const response = axios({
-            method: 'post',
-            url: 'http://localhost:8000/chat',
-            data: {
-                message: message
-            }
-        })
 
-        response.then((res) => {
-            const aiMessage = res.data.content
+        setMessageHistory(prev => [...prev, {sender: 'human', message}]);
 
-            setAiMessage(aiMessage);
-        }).catch((err) => {
-            console.log(err);
-        });
+        const { content } = await sendMessageToAI(message)
 
-        console.log('getMessages');
+        setMessageHistory(prev => [...prev, {sender: 'ai', message: content}]);
+
+        setMessage('');
     }
 
     return (
         <div id={style.chatContainer}>
             <div className={style.chatContainerMessage}>
-                <div className={style.chatDivMessage}>
-                    <Avatar alt="AI" src="/static/images/avatar/1.jpg" />
-                    <div className={style.chatMessage}>
-                        <p>{aiMessage}</p>
-                    </div>
-                </div>
-            </div>
-            <Paper className={style.divInputs} elevation={2}>
-                <input type="text" className={style.chatMessageInput} placeholder="Type a message..." onChange={setMessageValue}/>
+                {messageHistory.map((message, idx) => {
+                    return(
+                        <div className={style.chatDivMessage} key={idx}>
+                            {message.sender === 'human' ? <Avatar alt="Human" src="/images/human.png"/> 
+                            : <Avatar alt="AI" src="images/bot.png"/> }
+                            <div className={style.chatMessage}>
+                                <p>{message.message}</p>
+                            </div>
+                        </div>
+                    )
+                })}
+            </div> 
+            <div  className={style.divInputs}>
+                <input 
+                    type="text" 
+                    className={style.chatMessageInput} 
+                    placeholder="Type a message..." 
+                    onChange={e => {setMessage(e.target.value)}}
+                    value={message}
+                />
                 <IconButton className={style.chatSendButton} onClick={sendMessage}>
                     <SendIcon className={style.chatIconButton}/>
                 </IconButton>
-            </Paper>
+            </div>
         </div>
     );
 }
