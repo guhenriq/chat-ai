@@ -26,3 +26,26 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Estilizando todos os Scrollbars */
+::-webkit-scrollbar {
+  width: 10px; /* Largura da barra de rolagem */
+  height: 10px; /* Altura da barra de rolagem para rolagem horizontal */
+}
+
+/* Thumb (parte que se move no scroll) */
+::-webkit-scrollbar-thumb {
+  background-color: #888; /* Cor do thumb */
+  border-radius: 10px; /* Bordas arredondadas */
+  border: 2px solid #555; /* Borda ao redor do thumb */
+}
+
+/* Track (fundo do scroll) */
+::-webkit-scrollbar-track {
+  background-color: inherit; /* Cor do fundo da barra */
+}
+
+/* Quando o usuário passa o mouse sobre o thumb */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555; /* Cor do thumb ao passar o mouse */
+}

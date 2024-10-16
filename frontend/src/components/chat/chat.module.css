@@ -63,7 +63,7 @@ input:focus {outline:none!important;}
     padding: 20px 0px;
     background-color: var(--secondary-color);
     width: 60%;
-    height: 500vh;
+    height: 100vh;
     border-radius: 10px;
     overflow-y: auto;
 }
@@ -86,4 +86,10 @@ input:focus {outline:none!important;}
 
 .chatMessage p {
     margin: 10px;
+}
+
+.attachButton {
+    background-color: var(--secondary-color);
+    width: 5%;
+    height: 7vh;
 }
