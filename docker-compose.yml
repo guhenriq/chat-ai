@@ -7,14 +7,27 @@ services:
       - ./frontend/.env
     networks:
       - mynetwork
-  
+
   backend:
     build: ./backend
     ports:
       - 8000:8000
     env_file:
       - ./backend/.env
+
+  mongodb:
+    image: mongodb/mongodb-community-server:6.0-ubi8
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodata:/data/db
     
 networks:
   mynetwork:
     driver: bridge
+
+volumes:
+  mongodata:
